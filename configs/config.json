@@ -1,0 +1,17 @@
+{
+  "host": "127.0.0.1",
+  "port": 8810,
+  "ws_path": "/v1/audio/ws",
+  "device_sample_rate": 48000,
+  "capture_sample_rate": 16000,
+  "frame_ms": 10,
+  "render_queue_ms": 500,
+  "capture_queue_ms": 1000,
+  "capture_stall_timeout_ms": 3000,
+  "aec_tail_ms": 200,
+  "barge_in_min_speech_ms": 120,
+  "barge_in_hangover_ms": 300,
+  "vad_aggressiveness": 2,
+  "input_device": null,
+  "output_device": null
+}
