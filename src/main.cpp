@@ -83,7 +83,7 @@ Config load_config(const std::string& path) {
     if (data.contains("output_device") && !data["output_device"].is_null()) cfg.output_device = data["output_device"].get<std::string>();
     if (cfg.device_sample_rate != 48000 || cfg.capture_sample_rate != 16000 || cfg.frame_ms != 10) {
         throw std::runtime_error(
-            "AudioRuntime currently requires device_sample_rate=48000, capture_sample_rate=16000, and frame_ms=10"
+            "AuRunning currently requires device_sample_rate=48000, capture_sample_rate=16000, and frame_ms=10"
         );
     }
     if (cfg.port < 1 || cfg.port > 65535 || cfg.render_queue_ms < 10 || cfg.capture_queue_ms < 10 ||
@@ -288,7 +288,7 @@ public:
         };
         return {
             {"type", "status"}, {"protocol_version", 2}, {"ready", ready_.load()}, {"aec_ready", ready_.load()},
-            {"state", ready_ ? "ready" : "failed"}, {"last_error", last_error},
+            {"state", ready_ ? "READY" : "FAILED"}, {"last_error", last_error},
             {"input_device", input_name_}, {"output_device", output_name_},
             {"device_sample_rate", cfg_.device_sample_rate}, {"capture_sample_rate", cfg_.capture_sample_rate},
             {"render_active", render_active()}, {"aec_metrics", std::move(aec_metrics)},
@@ -1117,19 +1117,19 @@ int main(int argc, char** argv) {
         const bool audio_ready = engine.start();
         if (!audio_ready) std::cerr << "Audio/AEC initialization failed; voice sessions will be rejected" << std::endl;
         if (!server.start()) return 2;
-        std::cout << "AudioRuntime listening on ws://" << cfg.host << ':' << cfg.port << cfg.ws_path << std::endl;
+        std::cout << "AuRunning listening on ws://" << cfg.host << ':' << cfg.port << cfg.ws_path << std::endl;
         while (!interrupted && !server.shutdown_requested() && !engine.restart_requested()) {
             engine.poll_health();
             std::this_thread::sleep_for(100ms);
         }
         const bool restart_requested = engine.restart_requested();
-        if (restart_requested) std::cerr << "AudioRuntime requested a clean restart after an audio device failure" << std::endl;
+        if (restart_requested) std::cerr << "AuRunning requested a clean restart after an audio device failure" << std::endl;
         engine.stop();
         server.stop();
         ix::uninitNetSystem();
         return restart_requested ? 4 : (audio_ready ? 0 : 3);
     } catch (const std::exception& exc) {
-        std::cerr << "AudioRuntime fatal error: " << exc.what() << std::endl;
+        std::cerr << "AuRunning fatal error: " << exc.what() << std::endl;
         return 1;
     }
 }

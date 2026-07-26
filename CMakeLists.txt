@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.24)
-project(chat_audio_runtime VERSION 0.1.0 LANGUAGES C CXX)
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.0)
+  message(FATAL_ERROR "AuRunning currently supports CMake 3.24-3.x; use cmake<4")
+endif()
+
+project(au_running VERSION 0.1.0 LANGUAGES C CXX)
 
 if(NOT WIN32)
-  message(FATAL_ERROR "AudioRuntime v1 supports Windows x64 only")
+  message(FATAL_ERROR "AuRunning v1 supports Windows x64 only")
 endif()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -71,8 +76,8 @@ if(MSVC AND CMAKE_SYSTEM_PROCESSOR MATCHES "(AMD64)|(amd64)|(x64)")
 endif()
 add_subdirectory("${webrtc_apm_SOURCE_DIR}" "${webrtc_apm_BINARY_DIR}" EXCLUDE_FROM_ALL)
 
-add_executable(chat-audio-runtime src/main.cpp)
-target_link_libraries(chat-audio-runtime PRIVATE
+add_executable(au-running src/main.cpp)
+target_link_libraries(au-running PRIVATE
   ixwebsocket
   nlohmann_json::nlohmann_json
   webrtc_apm_wrapper
@@ -87,11 +92,11 @@ if(MSVC)
   )
   target_compile_options(webrtc_apm_wrapper PRIVATE /arch:AVX2)
 endif()
-target_include_directories(chat-audio-runtime PRIVATE
+target_include_directories(au-running PRIVATE
   "${webrtc_apm_SOURCE_DIR}/webrtc"
   "${webrtc_apm_SOURCE_DIR}/abseil-cpp"
 )
-target_compile_options(chat-audio-runtime PRIVATE /W4 /permissive- /EHsc)
+target_compile_options(au-running PRIVATE /W4 /permissive- /EHsc)
 
-install(TARGETS chat-audio-runtime RUNTIME DESTINATION bin)
+install(TARGETS au-running RUNTIME DESTINATION bin)
 install(FILES configs/config.json DESTINATION configs)
