@@ -127,7 +127,7 @@ ws://127.0.0.1:8810/v1/audio/ws
 | `capture_queue_ms` | `1000` | 采集传输队列容量 |
 | `capture_stall_timeout_ms` | `3000` | 采集或播放停滞超时 |
 | `aec_tail_ms` | `200` | 播放结束后的 AEC 尾部保护时间 |
-| `barge_in_min_speech_ms` | `120` | 确认近端人声所需的连续时长 |
+| `barge_in_min_speech_ms` | `300` | 确认近端人声所需的连续时长；外放场景用于抑制 AEC 残余误触发 |
 | `barge_in_hangover_ms` | `300` | 近端人声结束判定延迟 |
 | `vad_aggressiveness` | `2` | WebRTC VAD 激进程度，范围为 0-3 |
 | `input_device` | `null` | 输入设备；为空时使用默认通信设备 |

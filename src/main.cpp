@@ -53,7 +53,7 @@ struct Config {
     int capture_queue_ms = 1000;
     int capture_stall_timeout_ms = 3000;
     int aec_tail_ms = 200;
-    int barge_in_min_speech_ms = 120;
+    int barge_in_min_speech_ms = 300;
     int barge_in_hangover_ms = 300;
     int vad_aggressiveness = 2;
     std::optional<std::string> input_device;

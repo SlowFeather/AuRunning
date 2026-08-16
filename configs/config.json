@@ -9,7 +9,7 @@
   "capture_queue_ms": 1000,
   "capture_stall_timeout_ms": 3000,
   "aec_tail_ms": 200,
-  "barge_in_min_speech_ms": 120,
+  "barge_in_min_speech_ms": 300,
   "barge_in_hangover_ms": 300,
   "vad_aggressiveness": 2,
   "input_device": null,
