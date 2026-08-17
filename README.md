@@ -4,6 +4,19 @@ AuRunning 是面向 Windows x64 本地语音助手的原生全双工音频运行
 
 AuRunning 只负责实时音频输入、输出与回声控制，不包含唤醒词、语音识别、语音合成或大语言模型能力。
 
+## 与语音栈的关系
+
+AuRunning 是语音链路的底层音频边界，和其他项目的职责如下：
+
+| 项目 | 连接方式 | 职责 |
+| --- | --- | --- |
+| `WakeUp` | 接收 16 kHz PCM | 唤醒词检测 |
+| `SpText` | 接收 16 kHz PCM | 实时语音识别 |
+| `GVoice` | 发送 TTS PCM | 文本转语音 |
+| `ChatCaht` | 启停服务并编排会话 | 状态机、打断和故障恢复 |
+
+独立调试时可以直接运行 AuRunning；由 ChatCaht 托管时，音频参数以 ChatCaht 的 `audio:` 配置为准。
+
 ## 主要能力
 
 - 使用 Windows WASAPI 统一管理麦克风采集与扬声器播放。
